@@ -1,6 +1,9 @@
 # web-progress-planner
 
+Web app to track progress planner , create task and check daily progress
+
 ## Set up
+
 1. Run `yarn install` in order to install dependencies and clean the git repo.
 2. Run `yarn start` to see the app at http://localhost:3000.
 4. Run `yarn test` to run unit tests
