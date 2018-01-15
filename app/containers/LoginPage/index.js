@@ -55,7 +55,7 @@ export class LoginPage extends React.PureComponent { // eslint-disable-line reac
             <LinkText> Forgot Username ? </LinkText>
           </SpacedTwoColumn>
           <SpacedTwoColumn>
-            <SocialLogin><FacebookLogo />  Facebook </SocialLogin>
+            <SocialLogin><FacebookLogo /> <a href="/auth/facebook"> Facebook </a></SocialLogin>
             <SocialLogin> <GoogleLogo /> Google </SocialLogin>
           </SpacedTwoColumn>
         </LoginPanel>

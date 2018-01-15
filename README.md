@@ -6,7 +6,9 @@
 4. Run `yarn test` to run unit tests
 
 ## Online materials
-
+### Authentication passport
+* [Auth using Redis](https://blog.risingstack.com/node-hero-node-js-authentication-passport-js/) - Node Hero - Node.js Authentication using Passport.js
+* [toon.io] (http://toon.io/on-passportjs-specific-use-cases/) - On passport.js, specific use cases
 ### CSS
 https://css-tricks.com/almanac/properties/t/text-align/
 
@@ -42,7 +44,7 @@ http://krasimirtsonev.com/blog/article/react-the-powerful-higher-order-component
 - Eg:
 - https://github.com/franleplant/react-hoc-examples/blob/master/ii_debug.js
 
-- Tutorial
+-Tutorial
 - https://github.com/cassiozen/ReactCasts
 - https://www.youtube.com/watch?v=LTunyI2Oyzw&list=PLrg7k46JdVjfmL0iuo0lMrXAy4JFrz767
 
