@@ -1,34 +1,36 @@
 /*
- * Home Actions
- *
- * Actions change things in your application
- * Since this boilerplate uses a uni-directional data flow, specifically redux,
- * we have these actions which are the only way your application interacts with
- * your application state. This guarantees that your state is up to date and nobody
- * messes it up weirdly somewhere.
- *
- * To add a new Action:
- * 1) Import your constant
- * 2) Add a function like this:
- *    export function yourAction(var) {
- *        return { type: YOUR_ACTION_CONSTANT, var: var }
- *    }
+ * Login Actions
  */
 
 import {
-  CHANGE_USERNAME,
+  AUTHENTICATE,
+  AUTHENTICATE_SUCCESS,
+  AUTHENTICATE_ERROR,
 } from './constants';
 
 /**
- * Changes the input field of the form
+ * Authenticate the user
  *
- * @param  {name} name The new text of the input field
+ * @param  {authType} authTypw The type of authentication (FB, Google, local)
  *
- * @return {object}    An action object with a type of CHANGE_USERNAME
+ * @return {object}    An action object with a type of AUTHENTICATE
  */
-export function changeUsername(name) {
+export function authenticateUser(authType) {
   return {
-    type: CHANGE_USERNAME,
-    name,
+    type: AUTHENTICATE,
+    authType,
+  };
+}
+
+export function authenticateUserSuccess(user) {
+  return {
+    type: AUTHENTICATE_SUCCESS,
+    user,
+  };
+}
+export function authenticateUserError(err) {
+  return {
+    type: AUTHENTICATE_ERROR,
+    err,
   };
 }

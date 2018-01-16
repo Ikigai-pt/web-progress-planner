@@ -7,6 +7,7 @@ const methodOverride = require('method-override');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 const argv = require('./argv');
 const port = require('./port');
 const setup = require('./middlewares/frontendMiddleware');
@@ -15,7 +16,8 @@ const ngrok = (isDev && process.env.ENABLE_TUNNEL) || argv.tunnel ? require('ngr
 const resolve = require('path').resolve;
 const app = express();
 require('./api/oauth')(passport);
-
+const configDB = require('./config/database.js');
+mongoose.connect(configDB.url);
 // TODO move the below configs to env variables
 const secret = 'secret';
 
@@ -37,10 +39,8 @@ app.set('trust proxy', 1); // trust first proxy
 app.use(session({
   secret,
   resave: true,
-  saveUninitialized: true,
-  cookie: { secure: true },
+  saveUninitialized: false,
 }));
-
 // PassportJS is Express-compatible authentication middleware for Node.js.
 // Intializes PassportJS for incoming requests, allowing authentication strategies to be applied.
 app.use(passport.initialize());
@@ -49,6 +49,10 @@ app.use(passport.initialize());
 // If a login session has been established, `req.user` will be populated with the current user.
 app.use(passport.session());
 
+// app.all('/*', function(req, res, next) {
+//   res.header("Access-Control-Allow-Origin", '*');
+//   next();
+// });
 // routes ======================================================================
 require('./routes')(app, passport); // load our routes and pass in our app and fully configured passport
 

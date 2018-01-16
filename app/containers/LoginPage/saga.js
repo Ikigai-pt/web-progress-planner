@@ -2,37 +2,42 @@
  * Gets the repositories of the user from Github
  */
 
-import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { LOAD_REPOS } from 'containers/App/constants';
-import { reposLoaded, repoLoadingError } from 'containers/App/actions';
-
+import { call, put, takeLatest } from 'redux-saga/effects';
+import { push } from 'react-router-redux';
 import request from 'utils/request';
-import { makeSelectUsername } from 'containers/HomePage/selectors';
+import { AUTHENTICATE } from './constants';
+import { authenticateUserSuccess, authenticateUserError } from './actions';
+
 
 /**
  * Github repos request/response handler
  */
-export function* getRepos() {
+export function* authUser() {
   // Select username from store
-  const username = yield select(makeSelectUsername());
-  const requestURL = `https://api.github.com/users/${username}/repos?type=all&sort=updated`;
+  const RequestUrl = '/api/auth/facebook';
+  const options = {
+    method: 'GET',
+    json: true,
+  };
 
   try {
+    console.log(JSON.stringify(options))
     // Call our request helper (see 'utils/request')
-    const repos = yield call(request, requestURL);
-    yield put(reposLoaded(repos, username));
+    const user = yield call(request, RequestUrl, options);
+    yield put(authenticateUserSuccess(user));
+    yield put(push('/home'));
   } catch (err) {
-    yield put(repoLoadingError(err));
+    yield put(authenticateUserError(err));
   }
 }
 
 /**
  * Root saga manages watcher lifecycle
  */
-export default function* githubData() {
+export default function* authUserSaga() {
   // Watches for LOAD_REPOS actions and calls getRepos when one comes in.
   // By using `takeLatest` only the result of the latest API call is applied.
   // It returns task descriptor (just like fork) so we can continue execution
   // It will be cancelled automatically on component unmount
-  yield takeLatest(LOAD_REPOS, getRepos);
+  yield takeLatest(AUTHENTICATE, authUser);
 }

@@ -9,11 +9,11 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
+import { Redirect } from 'react-router';
 import { Switch, Route } from 'react-router-dom';
-
+import Cookies from 'js-cookie';
 import LoginPage from 'containers/LoginPage/Loadable';
 import HomePage from 'containers/HomePage/Loadable';
-import FeaturePage from 'containers/FeaturePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 const AppWrapper = styled.div`
@@ -25,21 +25,39 @@ const AppWrapper = styled.div`
   background: #fafafa;
 `;
 
-export default function App() {
-  return (
-    <AppWrapper>
-      <Helmet
-        titleTemplate="%s - React.js Boilerplate"
-        defaultTitle="React.js Boilerplate"
-      >
-        <meta name="description" content="A React.js Boilerplate application" />
-      </Helmet>
-      <Switch>
-        <Route exact path="/" component={LoginPage} />
-        <Route exact path="/home" component={HomePage} />
-        <Route path="/features" component={FeaturePage} />
-        <Route path="" component={NotFoundPage} />
-      </Switch>
-    </AppWrapper>
-  );
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.isAuthenticated = this.isAuthenticated.bind(this);
+  }
+  isAuthenticated() {
+    const isAuth = !!Cookies.get('PROGRESS_PLANNER');
+    return isAuth;
+  }
+  render() {
+    console.log(this.isAuthenticated());
+    const isLoggedIn = this.isAuthenticated();
+    const userId = Cookies.get('PROGRESS_PLANNER');
+    return (
+      <AppWrapper>
+        <Helmet
+          titleTemplate="%s - React.js Boilerplate"
+          defaultTitle="React.js Boilerplate"
+        >
+          <meta name="description" content="A React.js Boilerplate application" />
+        </Helmet>
+        <Switch>
+          <Route
+            path="/login"
+            render={() => (isLoggedIn ? (<Redirect to="/home" />) : (<LoginPage />))}
+          />
+          <Route
+            path="/home"
+            render={() => (isLoggedIn ? (<HomePage userId={userId}/>) : (<Redirect to="/login" />))}
+          />
+          <Route path="" component={NotFoundPage} />
+        </Switch>
+      </AppWrapper>
+    );
+  }
 }

@@ -5,22 +5,23 @@
  */
 
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 // import { Helmet } from 'react-helmet';
 // import { FormattedMessage } from 'react-intl';
-// import { connect } from 'react-redux';
-// import { compose } from 'redux';
-// import { createStructuredSelector } from 'reselect';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
 
-// import injectReducer from 'utils/injectReducer';
-// import injectSaga from 'utils/injectSaga';
+import injectReducer from 'utils/injectReducer';
+import injectSaga from 'utils/injectSaga';
 // import { makeSelectRepos, makeSelectLoading, makeSelectError } from 'containers/App/selectors';
 import * as Styles from './loginStyles';
 // import { loadRepos } from '../App/actions';
-// import { changeUsername } from './actions';
+import { authenticateUser } from './actions';
 // import { makeSelectUsername } from './selectors';
-// import reducer from './reducer';
-// import saga from './saga';
+import reducer from './reducer';
+import saga from './saga';
+import { AUTH_FACEBOOK } from './constants';
 
 const {
   LoginContainer,
@@ -40,7 +41,6 @@ export class LoginPage extends React.PureComponent { // eslint-disable-line reac
   /**
    * when initial state username is not null, submit the form to load repos
    */
-
   render() {
     return (
       <LoginContainer>
@@ -55,8 +55,8 @@ export class LoginPage extends React.PureComponent { // eslint-disable-line reac
             <LinkText> Forgot Username ? </LinkText>
           </SpacedTwoColumn>
           <SpacedTwoColumn>
-            <SocialLogin><FacebookLogo /> <a href="/auth/facebook"> Facebook </a></SocialLogin>
-            <SocialLogin> <GoogleLogo /> Google </SocialLogin>
+            <SocialLogin> <FacebookLogo /> <a href="/api/auth/facebook" > Facebook </a></SocialLogin>
+            <SocialLogin> <GoogleLogo /> <a href="#"> Google </a> </SocialLogin>
           </SpacedTwoColumn>
         </LoginPanel>
         <BlankPanel />
@@ -65,42 +65,31 @@ export class LoginPage extends React.PureComponent { // eslint-disable-line reac
   }
 }
 
-// LoginPage.propTypes = {
-//   loading: PropTypes.bool,
-//   error: PropTypes.oneOfType([
-//     PropTypes.object,
-//     PropTypes.bool,
-//   ]),
-//   onSubmitForm: PropTypes.func,
-//   onFacebookLogin: PropTypes.func,
-//   onGoogleLogin: PropTypes.func,
-// };
+LoginPage.propTypes = {
+  onFacebookLogin: PropTypes.func,
+};
 
-// export function mapDispatchToProps(dispatch) {
-//   return {
-//     onChangeUsername: (evt) => dispatch(changeUsername(evt.target.value)),
-//     onSubmitForm: (evt) => {
-//       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
-//       dispatch(loadRepos());
-//     },
-//   };
-// }
+export function mapDispatchToProps(dispatch) {
+  return {
+    onFacebookLogin: () => {
+      console.log('clicked FB');
+      dispatch(authenticateUser(AUTH_FACEBOOK));
+    },
+  };
+}
 
-// const mapStateToProps = createStructuredSelector({
-//   repos: makeSelectRepos(),
-//   username: makeSelectUsername(),
-//   loading: makeSelectLoading(),
-//   error: makeSelectError(),
-// });
+const mapStateToProps = createStructuredSelector({
+  // loading: makeSelectLoading(),
+  // error: makeSelectError(),
+});
 
-// const withConnect = connect(mapStateToProps, mapDispatchToProps);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-// const withReducer = injectReducer({ key: 'home', reducer });
-// const withSaga = injectSaga({ key: 'home', saga });
+const withReducer = injectReducer({ key: 'profile', reducer });
+const withSaga = injectSaga({ key: 'profile', saga });
 
-// export default compose(
-//   withReducer,
-//   withSaga,
-//   withConnect,
-// )(LoginPage);
-export default LoginPage;
+export default compose(
+  withReducer,
+  withSaga,
+  withConnect,
+)(LoginPage);

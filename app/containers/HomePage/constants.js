@@ -9,4 +9,6 @@
  * export const YOUR_ACTION_CONSTANT = 'yourproject/YourContainer/YOUR_ACTION_CONSTANT';
  */
 
-export const CHANGE_USERNAME = 'boilerplate/Home/CHANGE_USERNAME';
+export const FETCH_USER = '/Home/FETCH_USER';
+export const FETCH_USER_SUCCESS = '/Home/FETCH_USER_SUCCESS';
+export const FETCH_USER_ERROR = '/Home/FETCH_USER_ERROR';

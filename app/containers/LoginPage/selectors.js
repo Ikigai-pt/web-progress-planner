@@ -1,17 +1,17 @@
 /**
- * Homepage selectors
+ * Loginpage selectors
  */
 
 import { createSelector } from 'reselect';
 
-const selectHome = (state) => state.get('home');
+const selectAuth = (state) => state.get('profile');
 
-const makeSelectUsername = () => createSelector(
-  selectHome,
-  (homeState) => homeState.get('username')
+
+const makeSelectIsAuth = () => createSelector(
+  selectAuth,
+  (authState) => authState.get('isAuth'),
 );
 
 export {
-  selectHome,
-  makeSelectUsername,
+  makeSelectIsAuth,
 };

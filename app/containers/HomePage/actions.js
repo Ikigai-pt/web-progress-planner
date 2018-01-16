@@ -16,19 +16,27 @@
  */
 
 import {
-  CHANGE_USERNAME,
+  FETCH_USER,
+  FETCH_USER_SUCCESS,
+  FETCH_USER_ERROR,
 } from './constants';
 
-/**
- * Changes the input field of the form
- *
- * @param  {name} name The new text of the input field
- *
- * @return {object}    An action object with a type of CHANGE_USERNAME
- */
-export function changeUsername(name) {
+export function fetchUser(userId) {
   return {
-    type: CHANGE_USERNAME,
-    name,
+    type: FETCH_USER,
+    userId,
+  };
+}
+
+export function fetchUserSuccess(user) {
+  return {
+    type: FETCH_USER_SUCCESS,
+    user,
+  };
+}
+export function fetchUserError(error) {
+  return {
+    type: FETCH_USER_ERROR,
+    error,
   };
 }

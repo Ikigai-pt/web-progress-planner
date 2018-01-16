@@ -1,15 +1,23 @@
-// const JSON = require('circular-json');
-const userDB = [];
-
-const saveUser = (user) => {
-  userDB.push(user);
-};
+const JSON = require('circular-json');
+const User = require('./model/user');
 
 const getUser = (req, res) => {
-  const userId = req.query.userId;
-  res.send(userDB.filter((user) => user.id === userId));
+  console.log(JSON.stringify(req.query))
+  if (req.query.userId) {
+    User.findById(req.query.userId, (err, user) => {
+      if (err) {
+        return res.send(err);
+      }
+      const userProfile = {
+        id: user.facebook.id,
+        email: user.facebook.email,
+        name: user.facebook.name,
+      };
+      return res.send(userProfile);
+    });
+  } else {
+    return res.send({error:'user not found in the session'});
+  }
 };
 
-const getUserById = (id) => userDB.filter((user) => user.id === id);
-
-module.exports = { saveUser, getUser, getUserById };
+module.exports = { getUser };

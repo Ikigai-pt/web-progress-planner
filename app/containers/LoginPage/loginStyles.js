@@ -92,6 +92,9 @@ export const SocialLogin = styled(SpacedTwoColumn)`
   opacity: 0.5;
   font-size:18px;
   background: #82E9DE;
+  a {
+      color: black;
+  }
 `;
 
 export const FacebookLogo = styled(FacebookIcon)`

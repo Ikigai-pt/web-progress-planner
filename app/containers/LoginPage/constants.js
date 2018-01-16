@@ -9,4 +9,12 @@
  * export const YOUR_ACTION_CONSTANT = 'yourproject/YourContainer/YOUR_ACTION_CONSTANT';
  */
 
-export const CHANGE_USERNAME = 'boilerplate/Home/CHANGE_USERNAME';
+export const AUTHENTICATE = 'LoginPage/AUTHENTICATE';
+export const AUTHENTICATE_SUCCESS = 'LoginPage/AUTHENTICATE_SUCCESS';
+export const AUTHENTICATE_ERROR = 'LoginPage/AUTHENTICATE_ERROR';
+export const UNAUTHENTICATE = 'LoginPage/UNAUTHENTICATE';
+export const UNAUTHENTICATE_SUCCESS = 'LoginPage/UNAUTHENTICATE_SUCCESS';
+export const UNAUTHENTICATE_ERROR = 'LoginPage/UNAUTHENTICATE_ERROR';
+export const AUTH_FACEBOOK = 'facebook';
+export const AUTH_GOOGLE = 'google';
+export const AUTH_LOCAL = 'local';

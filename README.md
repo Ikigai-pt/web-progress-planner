@@ -6,12 +6,20 @@ Web app to track progress planner , create task and check daily progress
 
 1. Run `yarn install` in order to install dependencies and clean the git repo.
 2. Run `yarn start` to see the app at http://localhost:3000.
-4. Run `yarn test` to run unit tests
+3. Run `yarn test` to run unit tests
+4. Install mongo db and make sure its running `mongo`
+5. Create a collection in mongo db `use progressplanner`
 
 ## Online materials
 ### Authentication passport
 * [Auth using Redis](https://blog.risingstack.com/node-hero-node-js-authentication-passport-js/) - Node Hero - Node.js Authentication using Passport.js
 * [toon.io] (http://toon.io/on-passportjs-specific-use-cases/) - On passport.js, specific use cases
+* Auth using passport
+- Setup AuthGaurd at react App root level
+- The AuthGaurd will check for isAuth flag reducer store (value populated from cookie)
+- if isAuth is not set , redirect to login page
+  else go to home page or /url path
+
 ### CSS
 https://css-tricks.com/almanac/properties/t/text-align/
 

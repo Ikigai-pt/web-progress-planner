@@ -10,26 +10,40 @@
  *   return state.set('yourStateVariable', true);
  */
 import { fromJS } from 'immutable';
+import Cookies from 'js-cookie';
 
 import {
-  CHANGE_USERNAME,
+  AUTHENTICATE,
+  AUTHENTICATE_SUCCESS,
+  AUTHENTICATE_ERROR,
 } from './constants';
 
-// The initial state of the App
+const COOKIE_NAME = 'progressplanner';
+
 const initialState = fromJS({
-  username: '',
+  loading: false,
+  errors: null,
+  user: null,
+  isAuth: Cookies.get(COOKIE_NAME),
 });
 
-function homeReducer(state = initialState, action) {
+const loginReducer = (state = initialState, action) => {
   switch (action.type) {
-    case CHANGE_USERNAME:
-
-      // Delete prefixed '@' from the github username
+    case AUTHENTICATE:
       return state
-        .set('username', action.name.replace(/@/gi, ''));
+        .set('loading', true);
+    case AUTHENTICATE_SUCCESS:
+      return state
+        .set('loading', false)
+        .set('isAuth', true)
+        .set('user', action.user);
+    case AUTHENTICATE_ERROR:
+      return state
+        .set('loading', false)
+        .set('errors', action.errors);
     default:
       return state;
   }
-}
+};
 
-export default homeReducer;
+export default loginReducer;

@@ -23,6 +23,7 @@ function parseJSON(response) {
  */
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
+    console.log(JSON.stringify(response))
     return response;
   }
 
