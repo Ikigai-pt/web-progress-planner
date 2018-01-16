@@ -1,26 +1,14 @@
 // app/models/user.js
 // load the things we need
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt-nodejs');
+// const bcrypt = require('bcrypt-nodejs');
 
 // define the schema for our user model
 const userSchema = mongoose.Schema({
-  local: {
-    email: String,
-    password: String,
-  },
-  facebook: {
-    id: String,
-    token: String,
-    email: String,
-    name: String,
-  },
-  google: {
-    id: String,
-    token: String,
-    email: String,
-    name: String,
-  },
+  profileId: String,
+  token: String,
+  email: String,
+  name: String,
 });
 
 // // checking if password is valid using bcrypt

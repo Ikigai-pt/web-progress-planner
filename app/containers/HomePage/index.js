@@ -16,7 +16,6 @@ import injectSaga from 'utils/injectSaga';
 import Section from './Section';
 import { makeSelectUsername } from './selectors';
 import { fetchUser } from './actions';
-import { FETCH_USER } from './constants';
 import reducer from './reducer';
 import saga from './saga';
 

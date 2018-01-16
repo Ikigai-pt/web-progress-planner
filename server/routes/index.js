@@ -1,13 +1,13 @@
 const { getUser } = require('../api/user');
 
-const isLoggedIn = (req, res, next) => {
-  console.log(JSON.stringify(req.user))
-  if (req.isAuthenticated()) {
-    console.log('is authenticated');
-    return next;
-  }
-  return res.redirect('/home');
-};
+// const isLoggedIn = (req, res, next) => {
+//   console.log(JSON.stringify(req.user))
+//   if (req.isAuthenticated()) {
+//     console.log('is authenticated');
+//     return next;
+//   }
+//   return res.redirect('/home');
+// };
 
 const routes = (app, passport) => {
   app.get('/api/auth/facebook', passport.authenticate('facebook', { scope: 'email' }));

@@ -56,7 +56,7 @@ export class LoginPage extends React.PureComponent { // eslint-disable-line reac
           </SpacedTwoColumn>
           <SpacedTwoColumn>
             <SocialLogin> <FacebookLogo /> <a href="/api/auth/facebook" > Facebook </a></SocialLogin>
-            <SocialLogin> <GoogleLogo /> <a href="#"> Google </a> </SocialLogin>
+            <SocialLogin> <GoogleLogo /> <a href=""> Google </a> </SocialLogin>
           </SpacedTwoColumn>
         </LoginPanel>
         <BlankPanel />
@@ -72,7 +72,6 @@ LoginPage.propTypes = {
 export function mapDispatchToProps(dispatch) {
   return {
     onFacebookLogin: () => {
-      console.log('clicked FB');
       dispatch(authenticateUser(AUTH_FACEBOOK));
     },
   };

@@ -21,7 +21,6 @@ export function* authUser() {
   };
 
   try {
-    console.log(JSON.stringify(options))
     // Call our request helper (see 'utils/request')
     const user = yield call(request, RequestUrl, options);
     yield put(authenticateUserSuccess(user));

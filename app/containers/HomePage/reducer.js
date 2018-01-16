@@ -30,7 +30,6 @@ function homeReducer(state = initialState, action) {
     case FETCH_USER:
       return state.set('loading', true);
     case FETCH_USER_SUCCESS:
-      console.log(JSON.stringify(action.user))
       return state
         .set('loading', false)
         .set('id', action.user.id)

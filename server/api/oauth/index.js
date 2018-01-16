@@ -1,16 +1,13 @@
 
 // load all the things we need
 const FacebookStrategy = require('passport-facebook').Strategy;
-const { getUserById } = require('../user');
 // load the auth constiables
 const configAuth = require('../../config/auth');
-const { saveUser } = require('../user');
 const User = require('../user/model/user');
 // expose this function to our app using module.exports
 const authHandler = (passport) => {
   passport.serializeUser((user, done) => done(null, user));
   passport.deserializeUser((id, done) => {
-    console.log("user not found in session")
     User.findById(id, (err, user) => {
       done(null, user);
     });
@@ -24,18 +21,18 @@ const authHandler = (passport) => {
   }, (token, refreshToken, profile, done) => {
     process.nextTick(() => {
       console.log(JSON.stringify(profile));
-      const newUser = new User();
-      newUser.facebook.id = profile.id;
-      newUser.facebook.token = token;
-      newUser.facebook.name = profile.name.givenName;
-      newUser.facebook.email = profile.emails[0].value;
-
-      // save our user to the database
-      newUser.save((err) => {
+      const newUser = {
+        profileId: profile.id,
+        token,
+        name: profile.name.givenName,
+        email: profile.emails[0].value,
+      };
+      const query = { email: newUser.email };
+      User.findOneAndUpdate(query, newUser, { upsert: true, new: true }, (err, savedUser) => {
         if (err) {
           return done(err);
         }
-        return done(null, newUser);
+        return done(null, savedUser);
       });
       // const newUser = {
       //   id: profile.id,

@@ -9,7 +9,6 @@ import { fetchUserSuccess, fetchUserError } from './actions';
 
 export function* getUser(user) {
   // Select username from store
-  console.log("get user" +JSON.stringify(user.userId))
   const RequestUrl = `/api/user?userId=${user.userId}`;
   const options = {
     method: 'GET',
@@ -17,11 +16,9 @@ export function* getUser(user) {
   };
 
   try {
-    const user = yield call(request, RequestUrl, options);
-    console.log("user fetch "+JSON.stringify(user))
-    yield put(fetchUserSuccess(user));
+    const userProfile = yield call(request, RequestUrl, options);
+    yield put(fetchUserSuccess(userProfile));
   } catch (err) {
-    console.log("user fetch "+JSON.stringify(err))
     yield put(fetchUserError(err));
   }
 }

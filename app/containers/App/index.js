@@ -17,7 +17,7 @@ import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 const AppWrapper = styled.div`
-  max-width: calc(960px + 16px * 2);
+  max-width: calc(760px + 16px * 2);
   margin: 0 auto;
   display: flex;
   min-height: 100%;
@@ -49,11 +49,11 @@ export default class App extends React.Component {
         <Switch>
           <Route
             path="/login"
-            render={() => (isLoggedIn ? (<Redirect to="/home" />) : (<LoginPage />))}
+            render={() => (isLoggedIn ? (<Redirect to="/" />) : (<LoginPage />))}
           />
           <Route
-            path="/home"
-            render={() => (isLoggedIn ? (<HomePage userId={userId}/>) : (<Redirect to="/login" />))}
+            path="/"
+            render={() => (isLoggedIn ? (<HomePage userId={userId} />) : (<Redirect to="/login" />))}
           />
           <Route path="" component={NotFoundPage} />
         </Switch>
