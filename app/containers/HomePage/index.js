@@ -10,14 +10,15 @@ import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
-
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
-import Section from './Section';
+import { TasksListPanel, FocusTasksListPanel, TimelinePanel, WeeklyHabitsGridPanel } from './Features';
 import { makeSelectUsername } from './selectors';
 import { fetchUser } from './actions';
 import reducer from './reducer';
 import saga from './saga';
+import Layout from './Layout';
+import CalendarPanel from './Features/CalendarPanel';
 
 export class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   /**
@@ -30,16 +31,14 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
   render() {
     const { username } = this.props;
     return (
-      <article>
-        <Helmet>
-          <title>Home Page</title>
-          <meta name="description" content="A React.js Boilerplate application homepage" />
-        </Helmet>
-        <Section >
-          <h1> Welcome, <b><i> {username} </i></b></h1>
-          <p> Lets get started with Progress Planner </p>
-        </Section>
-      </article>
+      <div>
+        <CalendarPanel date={'2018-02-19'} />
+        <Layout>
+          <TasksListPanel />
+          <FocusTasksListPanel />
+          <WeeklyHabitsGridPanel />
+        </Layout>
+      </div>
     );
   }
 }

@@ -1,6 +1,6 @@
 import { injectGlobal } from 'styled-components';
 
-import * as Fonts from './assets/fonts/robotottf';
+import * as Fonts from './assets/fonts';
 
 /* eslint no-unused-expressions: 0 */
 injectGlobal`

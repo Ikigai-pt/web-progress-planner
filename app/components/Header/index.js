@@ -1,29 +1,33 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-
-import A from './A';
-import Img from './Img';
+import styled from 'styled-components';
+import { ProgressPlannerLogo, ProfileLogo } from 'assets/images';
 import NavBar from './NavBar';
-import HeaderLink from './HeaderLink';
-import Banner from './banner.jpg';
+import { HeaderLink, HeaderTitle } from './HeaderLink';
 import messages from './messages';
+
+const ProfileLogoWrapper = styled.div`
+  display: grid;
+  align-self: center;
+  justify-items: end;
+  margin-right: 1em;
+  cursor: pointer;
+`;
 
 class Header extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
-      <div>
-        <A href="https://twitter.com/mxstbr">
-          <Img src={Banner} alt="react-boilerplate - Logo" />
-        </A>
-        <NavBar>
-          <HeaderLink to="/">
-            <FormattedMessage {...messages.home} />
-          </HeaderLink>
-          <HeaderLink to="/features">
-            <FormattedMessage {...messages.features} />
-          </HeaderLink>
-        </NavBar>
-      </div>
+      <NavBar>
+        <HeaderLink to="/home">
+          <ProgressPlannerLogo />
+        </HeaderLink>
+        <HeaderTitle>
+          <FormattedMessage {...messages.title} />
+        </HeaderTitle>
+        <ProfileLogoWrapper>
+          <ProfileLogo />
+        </ProfileLogoWrapper>
+      </NavBar>
     );
   }
 }
