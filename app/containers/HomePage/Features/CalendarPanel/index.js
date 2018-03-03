@@ -1,97 +1,146 @@
-/*
- * Calendar panel has a heading (Month)
- * Header panel has right & left scroll for Months
- * Body panel has dates & Right & left scroll (for days and months)
- */
-
 import styled from 'styled-components';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { format, subMonths, addMonths, startOfMonth, endOfMonth, eachDay } from 'date-fns';
+import { pxToRem } from 'components/pxToRem';
+import format from 'date-fns/format';
+import { addMonths, subMonths, eachDay, addDays, subDays } from 'date-fns';
 
-const CalendarPanelContainer = styled.div`
-  display: grid;
-  grid-template-column: 1fr;
+const Wrapper = styled.div`
+  background: ${({ theme }) => theme.colors.secondary};
+  padding-bottom: ${pxToRem(16)};
 `;
 
-const CalendarPanelHeader = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 14fr 1fr;
-  justify-content: center;
+const MonthSectionWrapper = styled.div`
+  display: flex;
+  padding: ${pxToRem(8)};
+  flex-flow: row nowrap;
+  justify-content: space-between;
   align-items: center;
 `;
 
-const CalendarPanelBody = styled.div`
-  display: inline-grid;
-  grid-template-columns: repeat(31, 1fr);
-  grid-column-gap: 5px;
-  align-items: center;
+const Title = styled.p`
+  margin: 0;
+  font-size: ${pxToRem(24)};
+  color: ${({ theme }) => theme.colors.sText};
 `;
 
-const DateItem = styled.div`
-  font-size: 24px;
-  margin-left: -1px;
-  max-width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  border: 1px solid gray;
+
+const SubTitle = styled.h3`
+  margin: 0;
+  font-size: ${pxToRem(16)};
+  color: ${({ theme }) => theme.colors.sText};
   text-align: center;
-  &:hover {
-    border: '1px solid gray'
+`;
+
+const MonthNavigationButton = ({ text, monthSelectHandler }) => <SubTitle onClick={() => monthSelectHandler()} > {text} </SubTitle>;
+
+MonthNavigationButton.propTypes = {
+  text: PropTypes.string,
+  monthSelectHandler: PropTypes.func,
+};
+
+const DateSection = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: ${pxToRem(8)} ${pxToRem(24)};
+`;
+
+const DateCell = styled.div`
+  color: ${({ theme }) => theme.colors.pText};
+  background: ${({ theme }) => theme.colors.sText};
+  height: 40px;
+  width: 40px;
+  h3 {
+    display: block;
+    margin: 0;
+    padding-top: 4px;
+    text-align: center;
+    font-size: 20px;
   }
 `;
 
-const PrevBtn = styled(DateItem)`
-  background: gray;
+const DateCellActive = styled(DateCell)`
+  background: ${({ theme }) => theme.colors.primary};
 `;
 
-const PrevMonth = (text) => <div><button>{text}</button></div>;
-const NextMonth = (text) => <div><button>{text }</button></div>;
-const DateItemView = (dates) =>
-  dates.map((date) => <DateItem key={date}> <div>{format(date, 'D')} </div></DateItem>);
+const Arrow = styled.div`
+  width: 0;
+  height: 0;
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+  cursor: pointer;
+`;
 
-class CalendarPanel extends React.PureComponent {  // eslint-disable-line react/prefer-stateless-function
-  scrollMonthHandler = this.scrollMonthHandler.bind(this);
+const Next = styled(Arrow)`
+  border-left:20px solid ${({ theme }) => theme.colors.primary};
+`;
 
-  // dispatch events to fetch tasks by Month
-  scrollMonthHandler(direction) {
+const Prev = styled(Arrow)`
+  border-right:20px solid ${({ theme }) => theme.colors.primary};
+`;
 
+const DateCells = (dates, activeSelection, dayClickHandler) => dates.map((date) =>
+  (activeSelection === format(date, 'YYYY-MM-DD')) ? <DateCellActive key={format(date, 'DD')} onClick={() => dayClickHandler(format(date, 'YYYY-MM-DD'))}><h3> {format(date, 'DD')} </h3></DateCellActive> :
+  <DateCell key={format(date, 'DD')} onClick={() => dayClickHandler(format(date, 'YYYY-MM-DD'))}><h3> {format(date, 'DD')} </h3></DateCell>);
+
+const MonthSection = (prev, current, next, monthClickHandler) =>
+(<MonthSectionWrapper>
+  <MonthNavigationButton text={format(prev, 'MMMM')} monthSelectHandler={() => monthClickHandler(prev)} />
+  <Title>{current}</Title>
+  <MonthNavigationButton text={format(next, 'MMMM')} monthSelectHandler={() => monthClickHandler(next)} />
+</MonthSectionWrapper>);
+
+class CalendarPanel extends React.PureComponent {
+
+  monthClickHandler = this.monthClickHandler.bind(this);
+  scrollDateHandler = this.scrollDateHandler.bind(this);
+  dayClickHandler = this.dayClickHandler.bind(this);
+
+  monthClickHandler(date) {
+    this.props.updateDateHandler(date);
   }
 
-  // dispatch events to fetch tasks by week -1/+1
-  // and update month label accordingly
-  scrollDayHandler(direction) {
+  scrollDateHandler(direction, date) {
+    if (direction === 'PREVIOUS') {
+      this.props.updateDateHandler(subDays(date, 7));
+    } else if (direction === 'NEXT') {
+      this.props.updateDateHandler(addDays(date, 7));
+    }
+  }
 
+  dayClickHandler(date) {
+    this.props.dateClickHandler(date);
   }
 
   render() {
-    const date = new Date();
-    const month = format(date, 'MMMM');
-    const prevMonth = format(subMonths(date, 1), 'MMMM');
-    const nextMonth = format(addMonths(date, 1), 'MMMM');
-    const dates = eachDay(startOfMonth(date), endOfMonth(date));
-    console.log(prevMonth, nextMonth)
-    console.log(dates)
-    console.log(month)
+    const { midOfWeekDate, selectedDate } = this.props;
+    const today = format(midOfWeekDate, 'YYYY-MM-DD');
+    const activeSelection = format(selectedDate, 'YYYY-MM-DD');
+    const nextMonth = addMonths(today, 1);
+    const prevMonth = subMonths(today, 1);
+    const currentMonth = `${format(today, 'MMMM')} '${format(today, 'YY')}`;
+    const daysOfWeek = eachDay(subDays(today, 3), addDays(today, 3));
+
     return (
-      <CalendarPanelContainer>
-        <CalendarPanelHeader>
-          {PrevMonth(prevMonth)}
-          <div>{ month } </div>
-          {NextMonth(nextMonth)}
-        </CalendarPanelHeader>
-        <CalendarPanelBody>
-          <PrevBtn> {'<<'} </PrevBtn>
-          { DateItemView(dates) }
-          <PrevBtn> {'>>'} </PrevBtn>
-        </CalendarPanelBody>
-      </CalendarPanelContainer>
+      <Wrapper>
+        { MonthSection(prevMonth, currentMonth, nextMonth, this.monthClickHandler) }
+        <DateSection>
+          <Prev onClick={() => this.scrollDateHandler('PREVIOUS', midOfWeekDate)} />
+          { DateCells(daysOfWeek, activeSelection, this.dayClickHandler) }
+          <Next onClick={() => this.scrollDateHandler('NEXT', midOfWeekDate)} />
+        </DateSection>
+      </Wrapper>
     );
   }
 }
 
 CalendarPanel.propTypes = {
-  date: PropTypes.string,
+  midOfWeekDate: PropTypes.string,
+  selectedDate: PropTypes.string,
+  updateDateHandler: PropTypes.func,
+  dateClickHandler: PropTypes.func,
+
 };
 
 export default CalendarPanel;

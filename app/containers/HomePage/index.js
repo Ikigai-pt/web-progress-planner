@@ -6,19 +6,40 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
+import styled from 'styled-components';
+import { pxToRem } from 'components/pxToRem';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
-import { TasksListPanel, FocusTasksListPanel, TimelinePanel, WeeklyHabitsGridPanel } from './Features';
+import { TasksListPanel, FocusTasksListPanel, RetrospectivePanel } from './Features';
 import { makeSelectUsername } from './selectors';
 import { fetchUser } from './actions';
 import reducer from './reducer';
 import saga from './saga';
-import Layout from './Layout';
-import CalendarPanel from './Features/CalendarPanel';
+import SummaryPanel from './Features/Summary';
+
+const HomePageWrapper = styled.div`
+  position: relative;
+  padding: ${pxToRem(56)} ${pxToRem(32)} 0 ${pxToRem(32)};
+  margin: 0 auto;
+  width: 100%;
+  max-width: ${pxToRem(1366)};
+  overflow-y: hidden;
+  background: ${({ theme }) => theme.colors.sText};
+`;
+
+const MainContentWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 64px;
+  margin-top: 32px;
+`;
+
+const FooterPanel = styled.div`
+  margin: 62px 0px;
+`;
 
 export class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   /**
@@ -29,23 +50,25 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
   }
 
   render() {
-    const { username } = this.props;
     return (
-      <div>
-        <CalendarPanel date={'2018-02-19'} />
-        <Layout>
+      <HomePageWrapper>
+        <SummaryPanel />
+        <MainContentWrapper>
           <TasksListPanel />
-          <FocusTasksListPanel />
-          <WeeklyHabitsGridPanel />
-        </Layout>
-      </div>
+          <div>
+            <FocusTasksListPanel key={1} title={'FOCUS TASKS'} />
+            <FocusTasksListPanel key={2} title={'TODO TASKS'} />
+            <RetrospectivePanel key={3} title={'RETROSPECTIVE'} />
+          </div>
+        </MainContentWrapper>
+        <FooterPanel />
+      </HomePageWrapper>
     );
   }
 }
 
 HomePage.propTypes = {
   userId: PropTypes.string,
-  username: PropTypes.string,
   fetchLoggedInUser: PropTypes.func,
 };
 

@@ -10,6 +10,12 @@ injectGlobal`
     font-weight: normal;
     font-style: normal;
   }
+
+  @font-face {
+    font-family: 'RobotoThin';
+    src: url(${Fonts.RobotoThin}) format('truetype');
+    font-weight: lighter;
+  }
 ,
   html, body, [data-reactroot] {
     height: 100%;
@@ -47,9 +53,8 @@ injectGlobal`
   label,
   h1, h2, h3, h4, h5, h6,
   input, textarea, select, button {
-    font-family: RobotoLight, Georgia, Times, 'Times New Roman', serif;
+    font-family: RobotoLight;
     font-size: inherit;
-    line-height: 1.5rem;
   }
 
 #app {

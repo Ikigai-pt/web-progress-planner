@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
-
+import AutoLogo from 'assets/images/Auto.png';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 // import { makeSelectRepos, makeSelectLoading, makeSelectError } from 'containers/App/selectors';
@@ -25,16 +25,13 @@ import { AUTH_FACEBOOK } from './constants';
 
 const {
   LoginContainer,
+  CenterPanel,
   LoginPanel,
+  Logo,
   Title,
-  TextBox,
+  FooterPanel,
   LoginButton,
-  SocialLogin,
-  LinkText,
-  GoogleLogo,
-  FacebookLogo,
   BlankPanel,
-  SpacedTwoColumn,
 } = Styles;
 
 export class LoginPage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
@@ -45,21 +42,14 @@ export class LoginPage extends React.PureComponent { // eslint-disable-line reac
     return (
       <LoginContainer>
         <BlankPanel />
-        <LoginPanel>
-          <Title> Progress Planner </Title>
-          <TextBox placeholder="username" />
-          <TextBox placeholder="password" />
-          <LoginButton> SIGN IN </LoginButton>
-          <SpacedTwoColumn>
-            <LinkText> Forgot Password ? </LinkText>
-            <LinkText> Forgot Username ? </LinkText>
-          </SpacedTwoColumn>
-          <SpacedTwoColumn>
-            <SocialLogin> <FacebookLogo /> <a href="/api/auth/facebook" > Facebook </a></SocialLogin>
-            <SocialLogin> <GoogleLogo /> <a href=""> Google </a> </SocialLogin>
-          </SpacedTwoColumn>
-        </LoginPanel>
-        <BlankPanel />
+        <CenterPanel>
+          <LoginPanel>
+            <Logo src={AutoLogo} />
+            <Title> Progress Planner </Title>
+            <a href="/api/auth/facebook" > <LoginButton > LOG IN WITH FACEBOOK </LoginButton> </a>
+          </LoginPanel>
+        </CenterPanel>
+        <FooterPanel />
       </LoginContainer>
     );
   }

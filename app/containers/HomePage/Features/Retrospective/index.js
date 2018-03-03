@@ -38,15 +38,14 @@ const ItemContainer = styled.div`
   margin-left: 16px;
 `;
 
-const CheckBox = styled.div`
-  background-color: ${({ status, theme }) => status ? theme.colors.secondary : theme.colors.primaryBackground};
-  display: inline-block;
-  width: 32px;
+const BulletPoint = styled.div`
   height: 32px;
-  border: 1px solid ${({ theme }) => theme.colors.secondaryDark};
+  width: 32px;
+  background: ${({ theme }) => theme.colors.secondary};
+  clip-path: polygon(50% 0, 0 100%, 100% 100%);
 `;
 
-const Item = ({ text, status }) => <ItemContainer> <CheckBox status={status} /> <Text> isDone {status} {text} </Text> </ItemContainer>;
+const Item = ({ text, status }) => <ItemContainer> <BulletPoint /> <Text> isDone {status} {text} </Text> </ItemContainer>;
 
 Item.propTypes = {
   text: PropTypes.string,
@@ -56,7 +55,7 @@ Item.propTypes = {
 const ItemList = (items) => items.map((item) => <Item key={item.id} text={item.text + item.isDone} status={item.isDone} />);
 // Naming convention Domain.Page/Context.Component.Type
 // Sidebar, SidebarSwitch, ChatConversation, ACommunityAddToShortlistButton
-class FocusTasksListPanel extends React.Component {
+class RetrospectivePanel extends React.Component {
   state = { isExpanded: true }
   expandHandler = this.toggleExpandHandler.bind(this);
 
@@ -82,16 +81,6 @@ class FocusTasksListPanel extends React.Component {
         text: 'fdfjlfkd jfdklfks jldsfkflsa',
         isDone: false,
       },
-      {
-        id: 4,
-        text: 'fjdklf fsdljfdskf fkssdfiwfnksd fhsdfofnofljnsdf fsdflsfksfksjf hfuiwhfwnefiowrfhwrf fhowfowrofrgrwo',
-        isDone: false,
-      },
-      {
-        id: 5,
-        text: 'fdfjlfkd jfdklfks jldsfkflsa',
-        isDone: true,
-      },
     ];
 
     return (
@@ -106,8 +95,8 @@ class FocusTasksListPanel extends React.Component {
   }
 }
 
-FocusTasksListPanel.propTypes = {
+RetrospectivePanel.propTypes = {
   title: PropTypes.string,
 };
 
-export default FocusTasksListPanel;
+export default RetrospectivePanel;

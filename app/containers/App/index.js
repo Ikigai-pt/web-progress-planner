@@ -8,22 +8,27 @@
 
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import { Redirect } from 'react-router';
 import { Switch, Route } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import { theme as Theme } from 'themeStyles';
 import Header from 'components/Header';
 import LoginPage from 'containers/LoginPage/Loadable';
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 const AppWrapper = styled.div`
-  max-width: calc(70% + 16px * 2);
   margin: 0 auto;
   display: flex;
-  min-height: 100%;
-  flex-direction: column;
-  background: #fafafa;
+  width: 100%;
+  height: 100%;
+  .react-toggle {
+    // NOTE: not sure why this is rendering inconsistently from modules/storybook
+    vertical-align: middle;
+  }
+  box-sizing : border-box;
+  background: ${({ theme }) => theme.colors.primaryBackground};
 `;
 
 export default class App extends React.Component {
@@ -36,30 +41,31 @@ export default class App extends React.Component {
     return isAuth;
   }
   render() {
-    console.log(this.isAuthenticated());
     const isLoggedIn = this.isAuthenticated();
     const userId = Cookies.get('PROGRESS_PLANNER');
     return (
-      <AppWrapper>
-        <Helmet
-          titleTemplate="%s - React.js Boilerplate"
-          defaultTitle="React.js Boilerplate"
-        >
-          <meta name="description" content="A React.js Boilerplate application" />
-        </Helmet>
-        { isLoggedIn ? <Header/> : '' }
-        <Switch>
-          <Route
-            path="/login"
-            render={() => (isLoggedIn ? (<Redirect to="/" />) : (<LoginPage />))}
-          />
-          <Route
-            path="/"
-            render={() => (isLoggedIn ? (<HomePage userId={userId} />) : (<Redirect to="/login" />))}
-          />
-          <Route path="" component={NotFoundPage} />
-        </Switch>
-      </AppWrapper>
+      <ThemeProvider theme={Theme.rickshaw}>
+        <AppWrapper>
+          <Helmet
+            titleTemplate="%s - React.js Boilerplate"
+            defaultTitle="React.js Boilerplate"
+          >
+            <meta name="description" content="A React.js Boilerplate application" />
+          </Helmet>
+          { isLoggedIn ? <Header /> : '' }
+          <Switch>
+            <Route
+              path="/login"
+              render={() => (isLoggedIn ? (<Redirect to="/" />) : (<LoginPage />))}
+            />
+            <Route
+              path="/"
+              render={() => (isLoggedIn ? (<HomePage userId={userId} />) : (<Redirect to="/login" />))}
+            />
+            <Route path="" component={NotFoundPage} />
+          </Switch>
+        </AppWrapper>
+      </ThemeProvider>
     );
   }
 }

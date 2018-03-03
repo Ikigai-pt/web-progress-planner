@@ -20,7 +20,6 @@ const authHandler = (passport) => {
     profileFields: configAuth.facebookAuth.profileFields,
   }, (token, refreshToken, profile, done) => {
     process.nextTick(() => {
-      console.log(JSON.stringify(profile));
       const newUser = {
         profileId: profile.id,
         token,

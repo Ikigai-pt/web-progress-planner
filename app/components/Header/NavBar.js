@@ -1,9 +1,17 @@
 import styled from 'styled-components';
+import { pxToRem } from 'components/pxToRem';
 
 export default styled.div`
-  display: inline-grid;
-  grid-template-columns: 1fr 14fr 1fr;
-  background: #4F9A94;
-  content-justify: space-between;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  max-height: ${pxToRem(48)};
+  padding: ${pxToRem(8)};
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: ${({ theme }) => theme.colors.secondaryDark};
+  flex-basis: 48px;
+  z-index: 9;
 `;
 

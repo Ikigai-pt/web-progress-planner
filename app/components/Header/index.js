@@ -1,16 +1,13 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
-import { ProgressPlannerLogo, ProfileLogo } from 'assets/images';
+import { MenuIcon, ProfileIcon } from 'assets/images/icons';
 import NavBar from './NavBar';
-import { HeaderLink, HeaderTitle } from './HeaderLink';
+import { HeaderLink, HeaderTitle } from './Heading';
 import messages from './messages';
 
 const ProfileLogoWrapper = styled.div`
-  display: grid;
-  align-self: center;
-  justify-items: end;
-  margin-right: 1em;
+  margin-right: 8px;
   cursor: pointer;
 `;
 
@@ -19,13 +16,13 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
     return (
       <NavBar>
         <HeaderLink to="/home">
-          <ProgressPlannerLogo />
+          <MenuIcon />
         </HeaderLink>
         <HeaderTitle>
           <FormattedMessage {...messages.title} />
         </HeaderTitle>
         <ProfileLogoWrapper>
-          <ProfileLogo />
+          <ProfileIcon />
         </ProfileLogoWrapper>
       </NavBar>
     );

@@ -2,35 +2,60 @@ import styled from 'styled-components';
 import { FacebookIcon, GoogleIcon } from 'assets/images/social';
 
 export const LoginContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr 2fr 1fr;
-  background: #fafafa;
-  height: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  background: ${({ theme }) => theme.colors.sText};
 `;
 
 export const BlankPanel = styled.div`
-  background: #fafafa;
-  height: 200px;
+  margin: 0 ,auto;
+  background: ${({ theme }) => theme.colors.secondaryDark};
+  height: 10vh;
 `;
 
-export const LoginPanel = styled(LoginContainer)`
+export const FooterPanel = styled(BlankPanel)`
+  height: 20vh;
+`;
+
+export const CenterPanel = styled(LoginContainer)`
+  display: flex;
+  flex-stretch: 1;
+  justify-content: start;
+  margin-left: 30%;
+  width: 40vw;
+`;
+
+export const LoginPanel = styled.div`
   display: grid;
-  grid-template-rows: 1fr;
-  grid-row-gap: 10px;
-  background: #4F9A94;
-  align-items: start;
+  grid-row-gap: 0;
+  margin-top: 10%;
+  grid-template-columns: 1fr;
+  width: 400px;
+  height: 500px;
+  align-self: center;
+  background: ${({ theme }) => theme.colors.secondaryDark};
+  align-items: center;
   justify-items: center;
-  width: 100%;
   padding: 20px;
-  > h3 {
-    margin-top: 40px;
-  }
+`;
+
+export const Logo = styled.img`
+  margin-top: 48px;
+  width: 10vw;
+  height: 10vw;
 `;
 
 export const Title = styled.h3`
-  font-family: 'RobotoLight';
+  margin: 0px;
+  font-family: 'RobotoThin';
   font-size: 26px;
+  color: ${({ theme }) => theme.colors.sText};
+`;
+
+export const SubTitle = styled(Title)`
+  font-size: 20px;
 `;
 
 export const TextBox = styled.input`
@@ -40,19 +65,14 @@ export const TextBox = styled.input`
   background: #fafafa;
 `;
 
-export const Button = styled.div`
-  width: 160px;
-  height: 45px;
-  background: #82E9DE;
-  color: #424242;
-  border-radius: 8px;
-  padding: 10px;
+export const LoginButton = styled.div`
+  margin: 0;
+  background: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.pText};
+  padding: 24px;
+  width: 240px;
+  height: 72px;
   text-align: center;
-`;
-
-export const LoginButton = styled(Button)`
-  margin: 5px;
-  align-items: center;
 `;
 
 export const LinkBox = styled.div`
